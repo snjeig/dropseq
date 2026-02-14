@@ -2,10 +2,14 @@
 <html lang="en">
 
 <head>
-<link rel="stylesheet" type="text/css" href="../sequences/format.css">
+<link rel="stylesheet" type="text/css" href="../style_related/page_format.css">
 <title>Drop-seq/Seq-Well</title>
 </head>
 <body>
+
+<h1><a href="http://www.cell.com/abstract/S0092-8674(15)00549-8" target="_blank"><span style="color:red;">Drop-seq</span></a> / <a href="https://www.nature.com/nmeth/journal/v14/n4/full/nmeth.4179.html" target="_blank"><span style="color:red;">Seq-Well</span></a></h1>
+
+<p><info>In the original publication in Cell 161, 1202-1214 (2015), there are two batches of beads, with only two base pairs difference. Here, Beads-oligo-dT-seqA was used as demonstration. Seq-Well used exact the same oligo design with Drop-seq with Beads-oligo-dT-seqB, which was published in Nature Methods 14, 395-398 (2017).</info></p>
 
 <br>
 
@@ -66,7 +70,7 @@
 </pre>
 
 <h3>(5) Nextera tagmentation on amplified cDNA (will create 9-bp gap):</h3>
-<img src="../sequences/tn5_dimer.svg" alt="Tn5 dimer" style="width:800px;height:450px;">
+<img src="../data/tn5_dimer.svg" alt="Tn5 dimer" style="width:800px;height:450px;">
 <pre>
 <seq>
 <i>Product 1 (5'-end of cDNA, with s5 sequence, not amplifiable due to the use of Nextera N7xx for library amplification, see step 6):</i>
@@ -108,6 +112,7 @@
                                      AAAAAAAA<tso>TTCGTCACCATAGTTGCGTCTCA</tso>TGCA<cbc>[12-bp cell barcode]</cbc><umi>[8-bp UMI]</umi>(pA)XXX...XXXXXXXXXXXX<me>GACAGAGAATATGTGTAGA</me><s7>GGCTCGGGTGCTCTG</s7> -5'
                                                                                                                                       <--------<s7>GGCTCGGGTGCTCTG</s7>[i7]<p7>TAGAGCATACGGCAGAAGACGAAC</p7> -5'
 </align>
+</pre>
 <i> target seq amplify<i>
 </pre>
 <align class="long">
@@ -115,7 +120,6 @@
                               |--5'- TTTTTTTT<tso>AAGCAGTGGTATCAACGCAGAGT</tso>ACGT<cbc>[12-bp cell barcode]</cbc><umi>[8-bp UMI]</umi>(dT)XXX...XXX         <me>CAAGTCTTCTTCAGAAATAAGCTTTTGTTC</me>
                                      AAAAAAAA<tso>TTCGTCACCATAGTTGCGTCTCA</tso>TGCA<cbc>[12-bp cell barcode]</cbc><umi>[8-bp UMI]</umi>(pA)XXX...XXXXXXXXXXXX<me>GTTCAGAAGAAGTCTTTATTCGAAAACAAG</me> -5'
                                                                                                                                                     <--------<p7>GTTCAGAAGAAGTCTTTATTCGAAAACAAG</p7><s7>GGCTCGGGTGCTCTG</s7>[i7] -5'
-
 
 <h3>(7) Final library structure:</h3>
 <pre>
@@ -157,3 +161,6 @@
 
 </body>
 </html>
+
+
+
