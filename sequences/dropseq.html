@@ -18,18 +18,19 @@
 <p>Beads-oligo-dT-seqA: |--5'- TTTTTTT<tso>AAGCAGTGGTATCAACGCAGAGT</tso>ACGT<cbc>[12-bp cell barcode]</cbc><umi>[8-bp UMI]</umi>TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT -3'</p>
 <p>Beads-oligo-dT-seqB: |--5'- TTTTTTT<tso>AAGCAGTGGTATCAACGCAGAGT</tso>AC<cbc>[12-bp cell barcode]</cbc><umi>[8-bp UMI]</umi>TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT -3'</p>
 <p>Template Switching Oligo (TSO): 5'- <tso>AAGCAGTGGTATCAACGCAGAGT</tso>GAATrGrGrG -3'</p>
-<p>ISPCR: 5'- <tso>AAGCAGTGGTATCAACGCAGAGT</tso> -3'</p>
+<p>SMART Primer(ISPCR): 5'- <tso>AAGCAGTGGTATCAACGCAGAGT</tso> -3'</p>
 <p>Nextera Tn5 binding site (19-bp Mosaic End (ME)): 5'- <me>AGATGTGTATAAGAGACAG</me> -3'</p>
 <p>Nextera N/S5xx primer entry point (s5): 5'- <s5>TCGTCGGCAGCGTC</s5> -3'</p>
 <p>Nextera N7xx primer entry point (s7): 5'- <s7>GTCTCGTGGGCTCGG</s7> -3'</p>
 <p>Illumina P5 adapter: 5'- <p5>AATGATACGGCGACCACCGAGATCTACAC</p5> -3'</p>
 <p>Illumina P7 adapter: 5'- <p7>CAAGCAGAAGACGGCATACGAGAT</p7> -3'</p>
-<p>Library PCR primer 1: 5'- <p5>AATGATACGGCGACCACCGAGATCTACAC</p5>GCCTGTCCGCGG<tso>AAGCAGTGGTATCAACGCAGAGT</tso>AC -3'</p>
+<p>Library PCR primer 1(New-P5‐SMART PCR hybrid oligo): 5'- <p5>AATGATACGGCGACCACCGAGATCTACAC</p5>GCCTGTCCGCGG<tso>AAGCAGTGGTATCAACGCAGAGT</tso>AC -3'</p>
 <p>Library PCR primer 2 (this is basically Nextera N7xx): 5'- <p7>CAAGCAGAAGACGGCATACGAGAT</p7>[8-bp i7 index]<s7>GTCTCGTGGGCTCGG</s7> -3'</p>
 <p>Read 1 sequencing primer (seqA): 5'- GCCTGTCCGCGG<tso>AAGCAGTGGTATCAACGCAGAGT</tso>ACGT -3'</p>
-<p>Read 1 sequencing primer (seqB): 5'- GCCTGTCCGCGG<tso>AAGCAGTGGTATCAACGCAGAGT</tso>AC -3'</p>
+<p>Read 1 sequencing primer (seqB, or Custom Read 1 primer): 5'- GCCTGTCCGCGG<tso>AAGCAGTGGTATCAACGCAGAGT</tso>AC -3'</p>
 <p>Read 2 sequencing primer: 5'- <s7>GTCTCGTGGGCTCGG</s7><me>AGATGTGTATAAGAGACAG</me> -3'</p>
 <p>i7 index sequencing primer: 5'- <me>CTGTCTCTTATACACATCT</me><s7>CCGAGCCCACGAGAC</s7> -3'</p>
+
 </seq>
 
 <br>
@@ -59,7 +60,7 @@
 </seq>
 </pre>
 
-<h3>(4) Adding ISPCR for single primer cDNA amplification:<a href="http://www.nature.com/nmeth/journal/v7/n7/full/nmeth.1470.html" target="_blank">( i.e. semi-suppressive PCR )</a></h3>
+<h3>(4) Adding SMART primer(ISPCR) for single primer cDNA amplification:<a href="http://www.nature.com/nmeth/journal/v7/n7/full/nmeth.1470.html" target="_blank">( i.e. semi-suppressive PCR )</a></h3>
 <pre>
 <seq>
 5'- <tso>AAGCAGTGGTATCAACGCAGAGT</tso>---->
