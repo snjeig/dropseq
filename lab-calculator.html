@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lab Calculator</title>
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --card: #ffffff;
+    --border: #d8dde3;
+    --ink: #1f2933;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --accent-soft: #dbeafe;
+    --row-alt: #f9fafb;
+    --good: #047857;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    padding: 24px;
+    line-height: 1.45;
+  }
+  h1 {
+    margin: 0 0 4px;
+    font-size: 22px;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+  .card h2 {
+    margin: 0 0 12px;
+    font-size: 16px;
+    color: var(--ink);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+  }
+  .card h3 {
+    margin: 14px 0 8px;
+    font-size: 14px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 6px 0;
+    font-size: 14px;
+  }
+  label span.lbl {
+    color: var(--ink);
+  }
+  label .unit {
+    color: var(--muted);
+    font-size: 12px;
+    margin-left: 4px;
+  }
+  input[type="number"] {
+    width: 110px;
+    padding: 6px 8px;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--accent-soft);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  input[type="number"]:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 0;
+    background: #fff;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+  }
+  th, td {
+    text-align: right;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  th:first-child, td:first-child { text-align: left; }
+  th:nth-child(2), td:nth-child(2) { text-align: left; color: var(--muted); font-size: 12px; }
+  thead th {
+    background: #f3f4f6;
+    color: var(--muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+  tbody tr:nth-child(even) { background: var(--row-alt); }
+  tfoot td {
+    font-weight: 600;
+    border-top: 2px solid var(--ink);
+    background: #fff;
+  }
+  .result {
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--good);
+    display: flex;
+    justify-content: space-between;
+    font-variant-numeric: tabular-nums;
+  }
+  .result strong { color: var(--good); }
+  .note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+    font-style: italic;
+  }
+  footer {
+    margin-top: 24px;
+    color: var(--muted);
+    font-size: 12px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <h1>Lab Calculator</h1>
+  <div class="subtitle">PCR master mix &middot; Hemocytometer cell density &middot; Plate seeding</div>
+
+  <div class="grid">
+    <!-- PCR MASTER MIX -->
+    <section class="card">
+      <h2>PCR Master Mix</h2>
+      <label>
+        <span class="lbl">Number of samples</span>
+        <input type="number" id="pcrSamples" value="26" min="1" step="1" />
+      </label>
+      <p class="note">Per-reaction volumes follow the Q5 protocol. Master mix column scales with sample count.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Reagent</th>
+            <th>Cat#</th>
+            <th>µL / rxn</th>
+            <th>Master mix (µL)</th>
+          </tr>
+        </thead>
+        <tbody id="pcrBody">
+          <!-- filled by JS -->
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2">Total per reaction (excl. template)</td>
+            <td id="pcrPerRxn"></td>
+            <td id="pcrTotal"></td>
+          </tr>
+        </tfoot>
+      </table>
+      <p class="note">Add 1 µL template (3 ng/µL) per reaction.</p>
+    </section>
+
+    <!-- CELL DENSITY -->
+    <section class="card">
+      <h2>Hemocytometer Cell Density</h2>
+      <label>
+        <span class="lbl">Dilution factor</span>
+        <input type="number" id="dilution" value="10" min="1" step="1" />
+      </label>
+      <label>
+        <span class="lbl">Avg cells per square</span>
+        <input type="number" id="cellsPerSquare" value="50" min="0" step="1" />
+      </label>
+      <div class="result">
+        <span>Cell concentration</span>
+        <span><strong id="cellConc">5.00</strong> &times;10<sup>6</sup> cells/mL</span>
+      </div>
+      <p class="note">concentration = cells/square &times; dilution &times; 10<sup>4</sup> cells/mL</p>
+    </section>
+
+    <!-- 96-WELL SEEDING -->
+    <section class="card">
+      <h2>96-well Plate Seeding</h2>
+      <p class="note">Default: 10,000 cells/well in 100 µL.</p>
+      <label>
+        <span class="lbl">Wells needed</span>
+        <input type="number" id="wells96" value="60" min="1" step="1" />
+      </label>
+      <label>
+        <span class="lbl">Cells per well</span>
+        <input type="number" id="cells96" value="10000" min="0" step="1000" />
+      </label>
+      <label>
+        <span class="lbl">Volume per well <span class="unit">µL</span></span>
+        <input type="number" id="vol96" value="100" min="1" step="10" />
+      </label>
+      <div class="result">
+        <span>Final volume</span>
+        <span><strong id="finalVol96">6.00</strong> mL</span>
+      </div>
+      <div class="result">
+        <span>Cell suspension from stock</span>
+        <span><strong id="stockVol96">120</strong> µL</span>
+      </div>
+      <div class="result">
+        <span>Media to add</span>
+        <span><strong id="mediaVol96">5880</strong> µL</span>
+      </div>
+    </section>
+
+    <!-- 12-WELL SEEDING -->
+    <section class="card">
+      <h2>12-well Plate Seeding</h2>
+      <p class="note">Default: 300,000 cells/well in 1 mL.</p>
+      <label>
+        <span class="lbl">Wells needed</span>
+        <input type="number" id="wells12" value="6" min="1" step="1" />
+      </label>
+      <label>
+        <span class="lbl">Cells per well</span>
+        <input type="number" id="cells12" value="300000" min="0" step="10000" />
+      </label>
+      <label>
+        <span class="lbl">Volume per well <span class="unit">mL</span></span>
+        <input type="number" id="vol12" value="1" min="0.1" step="0.1" />
+      </label>
+      <div class="result">
+        <span>Final volume</span>
+        <span><strong id="finalVol12">6.00</strong> mL</span>
+      </div>
+      <div class="result">
+        <span>Cell suspension from stock</span>
+        <span><strong id="stockVol12">360</strong> µL</span>
+      </div>
+      <div class="result">
+        <span>Media to add</span>
+        <span><strong id="mediaVol12">5640</strong> µL</span>
+      </div>
+    </section>
+  </div>
+
+  <footer>Lab calculator &middot; static HTML, no dependencies</footer>
+
+<script>
+  const PCR_REAGENTS = [
+    { name: "5x Q5 buffer",  cat: "B9027S", vol: 10   },
+    { name: "10 mM dNTP",    cat: "N04475", vol: 1    },
+    { name: "IVT_F 10 µM",   cat: "",       vol: 2.5  },
+    { name: "IVT_R 10 µM",   cat: "",       vol: 2.5  },
+    { name: "Q5 hotstart",   cat: "M0493S", vol: 0.5  },
+    { name: "Water",         cat: "AM9938", vol: 32.5 },
+  ];
+
+  const fmt = (n, d=2) => {
+    if (!isFinite(n)) return "—";
+    return Number(n).toLocaleString(undefined, {
+      minimumFractionDigits: d,
+      maximumFractionDigits: d,
+    });
+  };
+  const fmtInt = n => isFinite(n) ? Math.round(n).toLocaleString() : "—";
+
+  function renderPCR() {
+    const n = Math.max(0, Number(document.getElementById("pcrSamples").value) || 0);
+    const tbody = document.getElementById("pcrBody");
+    tbody.innerHTML = "";
+    let perRxn = 0, total = 0;
+    PCR_REAGENTS.forEach(r => {
+      perRxn += r.vol;
+      const mm = r.vol * n;
+      total += mm;
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${r.name}</td>
+        <td>${r.cat || ""}</td>
+        <td>${fmt(r.vol, r.vol % 1 === 0 ? 0 : 1)}</td>
+        <td>${fmt(mm, mm % 1 === 0 ? 0 : 1)}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+    document.getElementById("pcrPerRxn").textContent = fmt(perRxn, 1);
+    document.getElementById("pcrTotal").textContent = fmt(total, 1);
+  }
+
+  function renderCellDensity() {
+    const d = Number(document.getElementById("dilution").value) || 0;
+    const c = Number(document.getElementById("cellsPerSquare").value) || 0;
+    // concentration in cells/mL = c * d * 1e4 ; expressed as million cells/mL
+    const conc = (c * d * 1e4) / 1e6;
+    document.getElementById("cellConc").textContent = fmt(conc, 2);
+    return conc; // million cells/mL
+  }
+
+  function renderSeeding96(concMillionPerMl) {
+    const wells = Number(document.getElementById("wells96").value) || 0;
+    const cells = Number(document.getElementById("cells96").value) || 0;
+    const volPerWell = Number(document.getElementById("vol96").value) || 0; // µL
+    const finalVolUl = wells * volPerWell;            // µL
+    const finalVolMl = finalVolUl / 1000;
+    const totalCells = wells * cells;
+    // stock concentration cells/µL = conc(million/mL) * 1e6 / 1000 = conc * 1000
+    const stockCellsPerUl = concMillionPerMl * 1000;
+    const stockUl = stockCellsPerUl > 0 ? totalCells / stockCellsPerUl : NaN;
+    const mediaUl = finalVolUl - stockUl;
+    document.getElementById("finalVol96").textContent = fmt(finalVolMl, 2);
+    document.getElementById("stockVol96").textContent = fmtInt(stockUl);
+    document.getElementById("mediaVol96").textContent = fmtInt(mediaUl);
+  }
+
+  function renderSeeding12(concMillionPerMl) {
+    const wells = Number(document.getElementById("wells12").value) || 0;
+    const cells = Number(document.getElementById("cells12").value) || 0;
+    const volPerWell = Number(document.getElementById("vol12").value) || 0; // mL
+    const finalVolMl = wells * volPerWell;
+    const finalVolUl = finalVolMl * 1000;
+    const totalCells = wells * cells;
+    const stockCellsPerUl = concMillionPerMl * 1000;
+    const stockUl = stockCellsPerUl > 0 ? totalCells / stockCellsPerUl : NaN;
+    const mediaUl = finalVolUl - stockUl;
+    document.getElementById("finalVol12").textContent = fmt(finalVolMl, 2);
+    document.getElementById("stockVol12").textContent = fmtInt(stockUl);
+    document.getElementById("mediaVol12").textContent = fmtInt(mediaUl);
+  }
+
+  function recomputeAll() {
+    renderPCR();
+    const conc = renderCellDensity();
+    renderSeeding96(conc);
+    renderSeeding12(conc);
+  }
+
+  document.addEventListener("input", e => {
+    if (e.target.matches('input[type="number"]')) recomputeAll();
+  });
+
+  recomputeAll();
+</script>
+</body>
+</html>
