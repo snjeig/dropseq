@@ -1,6 +1,6 @@
-# dropseq
+# Lab calculator
 
-2026
-running yeast-cell complex dropseq
-conduct normal cDNA amplification and sequencing
-conduct target antibody amplification and sequencing
+PCR calculation
+Cell seeding in the plate
+Dilution calculation
+
